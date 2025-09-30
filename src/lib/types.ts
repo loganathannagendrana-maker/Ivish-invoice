@@ -32,3 +32,9 @@ export interface Customer {
   totalAppointments: number;
   totalSpent: number;
 }
+
+export interface BusinessDetails {
+  name: string;
+  address: string;
+  phone: string;
+}

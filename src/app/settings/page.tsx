@@ -1,34 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Users, Plus, Edit, Trash2 } from "lucide-react";
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Users } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { serviceOptions as initialServices } from "@/lib/services";
-import { formatCurrency } from "@/lib/utils";
-import { AddServiceDialog } from "@/components/services/add-service-dialog";
-import type { Service } from "@/lib/types";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import type { BusinessDetails } from "@/lib/types";
+import { businessDetails as initialBusinessDetails } from "@/lib/config";
+import { useToast } from "@/hooks/use-toast";
 
+export default function SettingsPage() {
+  const [details, setDetails] = useState<BusinessDetails>(initialBusinessDetails);
+  const { toast } = useToast();
 
-export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>(initialServices);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setDetails(prev => ({...prev, [name]: value}));
+  };
 
-  const handleAddService = (service: Service) => {
-    setServices(prev => [...prev, service]);
+  const handleSaveChanges = () => {
+    // Here you would typically save to a persistent store (e.g., database or localStorage)
+    console.log("Saving changes:", details);
+    toast({
+        title: "Settings Saved",
+        description: "Your business details have been updated.",
+    });
   };
 
   return (
-    <>
-      <AddServiceDialog 
-        isOpen={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
-        onAddService={handleAddService}
-      />
-      <div className="container mx-auto p-4 md:p-8">
+    <div className="container mx-auto p-4 md:p-8">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-3">
@@ -105,45 +110,34 @@ export default function ServicesPage() {
         </header>
 
         <main>
-          <div className="flex items-center justify-between mb-6">
-              <div>
-                  <h2 className="text-2xl font-bold font-headline">Services</h2>
-                  <p className="text-muted-foreground">Manage your salon services and pricing</p>
-              </div>
-              <Button onClick={() => setIsAddDialogOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add Service</Button>
+          <div className="max-w-2xl mx-auto">
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold font-headline">Settings</h2>
+                <p className="text-muted-foreground">Manage your business information and application settings.</p>
+            </div>
+            <Card className="shadow-lg">
+                <CardHeader>
+                    <CardTitle>Business Details</CardTitle>
+                    <CardDescription>This information will appear on your invoices.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="name">Shop Name</Label>
+                        <Input id="name" name="name" value={details.name} onChange={handleInputChange} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="address">Address</Label>
+                        <Textarea id="address" name="address" value={details.address} onChange={handleInputChange} />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="phone">Phone Number</Label>
+                        <Input id="phone" name="phone" value={details.phone} onChange={handleInputChange} />
+                    </div>
+                    <Button onClick={handleSaveChanges}>Save Changes</Button>
+                </CardContent>
+            </Card>
           </div>
-
-          <Card className="shadow-lg">
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="bg-muted/50">
-                      <th className="p-4 font-semibold">Service Name</th>
-                      <th className="p-4 font-semibold text-right">Price</th>
-                      <th className="p-4 font-semibold text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {services.map(service => (
-                      <tr key={service.name} className="border-b">
-                        <td className="p-4 font-medium">{service.name}</td>
-                        <td className="p-4 text-right text-muted-foreground">{formatCurrency(service.rate)}</td>
-                        <td className="p-4 text-right">
-                          <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                              <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </main>
-      </div>
-    </>
+    </div>
   );
 }

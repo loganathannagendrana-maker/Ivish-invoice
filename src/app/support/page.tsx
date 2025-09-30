@@ -1,34 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Users, Plus, Edit, Trash2 } from "lucide-react";
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Users } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { serviceOptions as initialServices } from "@/lib/services";
-import { formatCurrency } from "@/lib/utils";
-import { AddServiceDialog } from "@/components/services/add-service-dialog";
-import type { Service } from "@/lib/types";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
-
-export default function ServicesPage() {
-  const [services, setServices] = useState<Service[]>(initialServices);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
-  const handleAddService = (service: Service) => {
-    setServices(prev => [...prev, service]);
-  };
-
+export default function SupportPage() {
   return (
-    <>
-      <AddServiceDialog 
-        isOpen={isAddDialogOpen}
-        onOpenChange={setIsAddDialogOpen}
-        onAddService={handleAddService}
-      />
-      <div className="container mx-auto p-4 md:p-8">
+    <div className="container mx-auto p-4 md:p-8">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="flex items-center gap-3">
@@ -105,45 +86,32 @@ export default function ServicesPage() {
         </header>
 
         <main>
-          <div className="flex items-center justify-between mb-6">
-              <div>
-                  <h2 className="text-2xl font-bold font-headline">Services</h2>
-                  <p className="text-muted-foreground">Manage your salon services and pricing</p>
-              </div>
-              <Button onClick={() => setIsAddDialogOpen(true)}><Plus className="mr-2 h-4 w-4" /> Add Service</Button>
+          <div className="max-w-2xl mx-auto">
+            <div className="mb-6">
+                <h2 className="text-2xl font-bold font-headline">Support</h2>
+                <p className="text-muted-foreground">Get help and find answers.</p>
+            </div>
+            <Card className="shadow-lg">
+                <CardHeader>
+                    <CardTitle>Contact Us</CardTitle>
+                    <CardDescription>For any questions or support requests, please reach out to us.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p>
+                        If you need assistance with the application, have a feature request, or encountered an issue, our team is here to help.
+                    </p>
+                    <div>
+                        <p className="font-semibold">Email Support:</p>
+                        <a href="mailto:support@ivish.com" className="text-primary hover:underline">support@ivish.com</a>
+                    </div>
+                     <div>
+                        <p className="font-semibold">Phone Support:</p>
+                        <p className="text-muted-foreground">095008 96380</p>
+                    </div>
+                </CardContent>
+            </Card>
           </div>
-
-          <Card className="shadow-lg">
-            <CardContent className="p-0">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="bg-muted/50">
-                      <th className="p-4 font-semibold">Service Name</th>
-                      <th className="p-4 font-semibold text-right">Price</th>
-                      <th className="p-4 font-semibold text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {services.map(service => (
-                      <tr key={service.name} className="border-b">
-                        <td className="p-4 font-medium">{service.name}</td>
-                        <td className="p-4 text-right text-muted-foreground">{formatCurrency(service.rate)}</td>
-                        <td className="p-4 text-right">
-                          <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                              <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </main>
-      </div>
-    </>
+    </div>
   );
 }
