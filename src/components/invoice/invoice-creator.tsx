@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/utils";
-import { PlusCircle, Trash2, Send, BrainCircuit } from "lucide-react";
+import { PlusCircle, Trash2, Send } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface InvoiceCreatorProps {
   invoice: Invoice;
@@ -21,12 +21,23 @@ interface InvoiceCreatorProps {
 
 const GST_RATE = 0.12;
 
-export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: InvoiceCreatorProps) {
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [activeSuggestionIndex, setActiveSuggestionIndex] = useState<number | null>(null);
-  const [isSuggesting, setIsSuggesting] = useState(false);
-  const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
+const serviceOptions = [
+  "Diamond Facials",
+  "Fruit Facials",
+  "Gold Facials",
+  "Hair Colour Gel",
+  "Hair Colour Streax",
+  "Hair Colour loreal",
+  "Highlights",
+  "O facials",
+  "Per Streax",
+  "Vitamin C facials",
+  "pappaya Facials",
+  "shine and Whitening Facial"
+];
 
+export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: InvoiceCreatorProps) {
+  
   const handleCustomerChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setInvoice(prev => ({ ...prev, [name]: value }));
@@ -39,30 +50,6 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
     setInvoice(prev => ({ ...prev, items: newItems }));
   };
   
-  const getSuggestions = (text: string) => {
-    if (debounceTimeout) clearTimeout(debounceTimeout);
-    
-    if (!text.trim()) {
-      setSuggestions([]);
-      return;
-    }
-
-    const newTimeout = setTimeout(async () => {
-      setIsSuggesting(true);
-      try {
-        const result = await suggestServicesOrProducts({ text });
-        setSuggestions(result.suggestions);
-      } catch (error) {
-        console.error("AI suggestion failed:", error);
-        setSuggestions([]);
-      } finally {
-        setIsSuggesting(false);
-      }
-    }, 500);
-
-    setDebounceTimeout(newTimeout);
-  };
-
   const addItem = () => {
     const newItem: InvoiceItem = {
       id: Date.now(),
@@ -120,44 +107,19 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invoice.items.map((item, index) => (
+                {invoice.items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
-                      <Popover open={activeSuggestionIndex === index && suggestions.length > 0} onOpenChange={() => setActiveSuggestionIndex(null)}>
-                        <PopoverTrigger asChild>
-                           <Input
-                            type="text"
-                            value={item.description}
-                            placeholder="Service or product"
-                            onChange={(e) => {
-                              handleItemChange(item.id, 'description', e.target.value)
-                              getSuggestions(e.target.value);
-                            }}
-                            onFocus={() => setActiveSuggestionIndex(index)}
-                          />
-                        </PopoverTrigger>
-                        <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                          {isSuggesting ? (
-                             <div className="p-4 text-sm text-muted-foreground flex items-center justify-center">
-                               <BrainCircuit className="mr-2 h-4 w-4 animate-pulse" /> Generating...
-                             </div>
-                          ) : (
-                            <div className="flex flex-col">
-                              {suggestions.map((s, i) => (
-                                <button key={i} onClick={() => {
-                                  handleItemChange(item.id, 'description', s);
-                                  setSuggestions([]);
-                                  setActiveSuggestionIndex(null);
-                                }}
-                                className="text-left p-2 hover:bg-accent rounded-md text-sm"
-                                >
-                                  {s}
-                                </button>
-                              ))}
-                            </div>
-                          )}
-                        </PopoverContent>
-                      </Popover>
+                       <Select onValueChange={(value) => handleItemChange(item.id, 'description', value)} value={item.description}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a service" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {serviceOptions.map(option => (
+                            <SelectItem key={option} value={option}>{option}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </TableCell>
                     <TableCell>
                       <Input type="number" value={item.quantity} min="0" onChange={e => handleItemChange(item.id, 'quantity', parseFloat(e.target.value) || 0)} />
