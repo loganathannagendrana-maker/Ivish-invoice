@@ -7,7 +7,8 @@ import InvoiceHistory from '@/components/invoice/invoice-history';
 import { PrintInvoice } from '@/components/invoice/print-invoice';
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
-import { FileText } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { FileText, Settings, LifeBuoy, LogOut, Menu } from 'lucide-react';
 
 const getInitialInvoice = (): Invoice => ({
   id: '',
@@ -95,7 +96,38 @@ export default function Home() {
             <Logo className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold font-headline text-foreground/80">InvoiceFast</h1>
           </div>
-          <Button onClick={handleNewInvoice}><FileText className="mr-2 h-4 w-4" /> New Invoice</Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={handleNewInvoice} className="hidden sm:inline-flex"><FileText className="mr-2 h-4 w-4" /> New Invoice</Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Menu className="h-4 w-4" />
+                  <span className="sr-only">Open menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleNewInvoice} className="sm:hidden">
+                  <FileText className="mr-2 h-4 w-4" />
+                  <span>New Invoice</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <LifeBuoy className="mr-2 h-4 w-4" />
+                  <span>Support</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
