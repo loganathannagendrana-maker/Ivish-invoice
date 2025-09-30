@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/utils";
 import { PlusCircle, Trash2, Send } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { serviceOptions } from "@/lib/services";
 
 interface InvoiceCreatorProps {
   invoice: Invoice;
@@ -20,22 +21,6 @@ interface InvoiceCreatorProps {
 }
 
 const GST_RATE = 0.12;
-
-const serviceOptions = [
-    { name: "Diamond Facials", rate: 1000.00 },
-    { name: "Fruit Facials", rate: 600.00 },
-    { name: "Gold Facials", rate: 900.00 },
-    { name: "Hair Colour Gel", rate: 200.00 },
-    { name: "Hair Colour Streax", rate: 300.00 },
-    { name: "Hair Colour loreal", rate: 400.00 },
-    { name: "Highlights", rate: 800.00 },
-    { name: "O facials", rate: 2000.00 },
-    { name: "Per Streax", rate: 100.00 },
-    { name: "Vitamin C facials", rate: 1100.00 },
-    { name: "pappaya Facials", rate: 500.00 },
-    { name: "shine and Whitening Facial", rate: 800.00 }
-];
-
 
 export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: InvoiceCreatorProps) {
   

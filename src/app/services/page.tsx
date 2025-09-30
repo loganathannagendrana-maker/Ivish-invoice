@@ -4,27 +4,15 @@ import { useState } from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar as CalendarIcon, Clock, Plus, User, Phone, Edit, Trash2, Users } from "lucide-react";
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar as CalendarIcon, Users, Plus, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
+import { Card, CardContent } from "@/components/ui/card";
+import { serviceOptions } from "@/lib/services";
+import { formatCurrency } from "@/lib/utils";
 
-// Mock data for appointments
-const mockAppointments = [
-  { id: 1, time: "10:00 AM", name: "John Doe", service: "Haircut", phone: "123-456-7890" },
-  { id: 2, time: "11:30 AM", name: "Jane Smith", service: "Manicure", phone: "987-654-3210" },
-  { id: 3, time: "02:00 PM", name: "Peter Jones", service: "Pedicure", phone: "555-555-5555" },
-];
+export default function ServicesPage() {
+  const [services, setServices] = useState(serviceOptions);
 
-export default function AppointmentsPage() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [appointments, setAppointments] = useState(mockAppointments);
-
-  const todaysAppointments = appointments.filter(apt => {
-    // For demo purposes, we show all mock appointments for the selected date
-    return true; 
-  });
-  
   return (
     <div className="container mx-auto p-4 md:p-8">
       <header className="mb-8 flex items-center justify-between">
@@ -40,7 +28,7 @@ export default function AppointmentsPage() {
               <Users className="mr-2 h-4 w-4" /> Services
             </Button>
           </Link>
-          <Link href="/customers">
+           <Link href="/customers">
             <Button variant="outline" className="hidden sm:inline-flex">
               <Users className="mr-2 h-4 w-4" /> Customers
             </Button>
@@ -65,13 +53,13 @@ export default function AppointmentsPage() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link href="/services">
+               <Link href="/services">
                 <DropdownMenuItem className="sm:hidden">
                   <Users className="mr-2 h-4 w-4" />
                   <span>Services</span>
                 </DropdownMenuItem>
               </Link>
-              <Link href="/customers">
+               <Link href="/customers">
                 <DropdownMenuItem className="sm:hidden">
                   <Users className="mr-2 h-4 w-4" />
                   <span>Customers</span>
@@ -107,57 +95,44 @@ export default function AppointmentsPage() {
         </div>
       </header>
 
-      <main className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2">
-          <Card className="shadow-lg">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="font-headline">Today's Appointments</CardTitle>
-              <Button size="sm"><Plus className="mr-2 h-4 w-4" /> Add Appointment</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {todaysAppointments.length > 0 ? (
-                  todaysAppointments.map(apt => (
-                    <Card key={apt.id} className="bg-secondary/30">
-                      <CardContent className="p-4 grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
-                        <div className="flex items-center gap-3">
-                          <Clock className="h-5 w-5 text-primary" />
-                          <span className="font-semibold text-lg">{apt.time}</span>
-                        </div>
-                        <div className="space-y-1">
-                          <p className="flex items-center gap-2"><User className="h-4 w-4 text-muted-foreground" /> {apt.name}</p>
-                          <p className="flex items-center gap-2 text-sm text-muted-foreground"><Phone className="h-4 w-4" /> {apt.phone}</p>
-                        </div>
+      <main>
+        <div className="flex items-center justify-between mb-6">
+            <div>
+                <h2 className="text-2xl font-bold font-headline">Services</h2>
+                <p className="text-muted-foreground">Manage your salon services and pricing</p>
+            </div>
+            <Button><Plus className="mr-2 h-4 w-4" /> Add Service</Button>
+        </div>
+
+        <Card className="shadow-lg">
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left">
+                <thead>
+                  <tr className="bg-muted/50">
+                    <th className="p-4 font-semibold">Service Name</th>
+                    <th className="p-4 font-semibold text-right">Price</th>
+                    <th className="p-4 font-semibold text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {services.map(service => (
+                    <tr key={service.name} className="border-b">
+                      <td className="p-4 font-medium">{service.name}</td>
+                      <td className="p-4 text-right text-muted-foreground">{formatCurrency(service.rate)}</td>
+                      <td className="p-4 text-right">
                         <div className="flex justify-end gap-2">
-                          <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                          <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
+                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
                         </div>
-                      </CardContent>
-                    </Card>
-                  ))
-                ) : (
-                  <p className="text-center text-muted-foreground py-8">No appointments for today.</p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        <div className="lg:col-span-1">
-          <Card className="shadow-lg">
-            <CardContent className="p-0">
-              <Calendar
-                mode="single"
-                selected={selectedDate}
-                onSelect={setSelectedDate}
-                className="rounded-md"
-                classNames={{
-                  day_selected: "bg-primary text-primary-foreground hover:bg-primary/90 focus:bg-primary/90",
-                  day_today: "bg-accent text-accent-foreground",
-                }}
-              />
-            </CardContent>
-          </Card>
-        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

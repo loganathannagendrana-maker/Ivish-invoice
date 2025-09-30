@@ -28,3 +28,8 @@ export interface Appointment {
   service: string;
   notes: string;
 }
+
+export interface Service {
+  name: string;
+  rate: number;
+}

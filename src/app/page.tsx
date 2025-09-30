@@ -100,6 +100,11 @@ export default function Home() {
             </Link>
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/services">
+              <Button variant="outline" className="hidden sm:inline-flex">
+                <Users className="mr-2 h-4 w-4" /> Services
+              </Button>
+            </Link>
             <Link href="/customers">
               <Button variant="outline" className="hidden sm:inline-flex">
                 <Users className="mr-2 h-4 w-4" /> Customers
@@ -125,6 +130,12 @@ export default function Home() {
                   <FileText className="mr-2 h-4 w-4" />
                   <span>New Invoice</span>
                 </DropdownMenuItem>
+                 <Link href="/services">
+                  <DropdownMenuItem className="sm:hidden">
+                    <Users className="mr-2 h-4 w-4" />
+                    <span>Services</span>
+                  </DropdownMenuItem>
+                </Link>
                  <Link href="/customers">
                   <DropdownMenuItem className="sm:hidden">
                     <Users className="mr-2 h-4 w-4" />
