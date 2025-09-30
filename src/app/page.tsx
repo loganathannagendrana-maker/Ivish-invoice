@@ -8,7 +8,7 @@ import { PrintInvoice } from '@/components/invoice/print-invoice';
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar, Users } from 'lucide-react';
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Users } from 'lucide-react';
 import Link from 'next/link';
 
 const getInitialInvoice = (): Invoice => ({
@@ -110,11 +110,6 @@ export default function Home() {
                 <Users className="mr-2 h-4 w-4" /> Customers
               </Button>
             </Link>
-            <Link href="/appointments">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                <Calendar className="mr-2 h-4 w-4" /> Appointments
-              </Button>
-            </Link>
             <Button onClick={handleNewInvoice} className="hidden sm:inline-flex"><FileText className="mr-2 h-4 w-4" /> New Invoice</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -140,12 +135,6 @@ export default function Home() {
                   <DropdownMenuItem className="sm:hidden">
                     <Users className="mr-2 h-4 w-4" />
                     <span>Customers</span>
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/appointments">
-                  <DropdownMenuItem className="sm:hidden">
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <span>Appointments</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuItem>

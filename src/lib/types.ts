@@ -19,16 +19,6 @@ export interface Invoice {
   total: number;
 }
 
-export interface Appointment {
-  id: string;
-  date: string;
-  time: string;
-  customerName: string;
-  customerPhone: string;
-  service: string;
-  notes: string;
-}
-
 export interface Service {
   name: string;
   rate: number;

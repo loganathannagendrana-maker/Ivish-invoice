@@ -4,7 +4,7 @@ import { useState } from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar as CalendarIcon, Users, Plus, Edit, Trash2 } from "lucide-react";
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Users, Plus, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { serviceOptions } from "@/lib/services";
@@ -31,11 +31,6 @@ export default function ServicesPage() {
            <Link href="/customers">
             <Button variant="outline" className="hidden sm:inline-flex">
               <Users className="mr-2 h-4 w-4" /> Customers
-            </Button>
-          </Link>
-          <Link href="/appointments">
-            <Button variant="outline" className="hidden sm:inline-flex">
-              <CalendarIcon className="mr-2 h-4 w-4" /> Appointments
             </Button>
           </Link>
           <Link href="/">
@@ -69,12 +64,6 @@ export default function ServicesPage() {
                 <DropdownMenuItem className="sm:hidden">
                   <FileText className="mr-2 h-4 w-4" />
                   <span>New Invoice</span>
-                </DropdownMenuItem>
-              </Link>
-              <Link href="/appointments">
-                <DropdownMenuItem className="sm:hidden">
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  <span>Appointments</span>
                 </DropdownMenuItem>
               </Link>
               <DropdownMenuItem>
