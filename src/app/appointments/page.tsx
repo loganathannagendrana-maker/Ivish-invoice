@@ -10,11 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
 
 // Mock data for appointments
-const mockAppointments = [
-  { id: 1, time: "10:00 AM", name: "John Doe", service: "Haircut", phone: "123-456-7890" },
-  { id: 2, time: "11:30 AM", name: "Jane Smith", service: "Manicure", phone: "987-654-3210" },
-  { id: 3, time: "02:00 PM", name: "Peter Jones", service: "Pedicure", phone: "555-555-5555" },
-];
+const mockAppointments: { id: number, time: string, name: string, service: string, phone: string }[] = [];
 
 export default function AppointmentsPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());

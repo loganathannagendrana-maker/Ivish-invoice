@@ -9,11 +9,7 @@ import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Mock data for customers
-const mockCustomers = [
-  { id: 1, name: "John Doe", phone: "123-456-7890", email: "john@example.com", totalAppointments: 5, totalSpent: 5000 },
-  { id: 2, name: "Jane Smith", phone: "987-654-3210", email: "jane@example.com", totalAppointments: 8, totalSpent: 9500 },
-  { id: 3, name: "Peter Jones", phone: "555-555-5555", email: "peter@example.com", totalAppointments: 2, totalSpent: 1800 },
-];
+const mockCustomers: { id: number, name: string, phone: string, email: string, totalAppointments: number, totalSpent: number }[] = [];
 
 
 export default function CustomersPage() {
