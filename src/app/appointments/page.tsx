@@ -4,7 +4,7 @@ import { useState } from "react";
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar as CalendarIcon, Clock, Plus, User, Phone, Edit, Trash2 } from "lucide-react";
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar as CalendarIcon, Clock, Plus, User, Phone, Edit, Trash2, Users } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -35,6 +35,11 @@ export default function AppointmentsPage() {
           </Link>
         </div>
         <div className="flex items-center gap-2">
+          <Link href="/customers">
+            <Button variant="outline" className="hidden sm:inline-flex">
+              <Users className="mr-2 h-4 w-4" /> Customers
+            </Button>
+          </Link>
           <Link href="/appointments">
             <Button variant="outline" className="hidden sm:inline-flex">
               <CalendarIcon className="mr-2 h-4 w-4" /> Appointments
@@ -55,6 +60,12 @@ export default function AppointmentsPage() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <Link href="/customers">
+                <DropdownMenuItem className="sm:hidden">
+                  <Users className="mr-2 h-4 w-4" />
+                  <span>Customers</span>
+                </DropdownMenuItem>
+              </Link>
               <Link href="/">
                 <DropdownMenuItem className="sm:hidden">
                   <FileText className="mr-2 h-4 w-4" />

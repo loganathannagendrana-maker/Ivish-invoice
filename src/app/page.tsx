@@ -8,7 +8,7 @@ import { PrintInvoice } from '@/components/invoice/print-invoice';
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar } from 'lucide-react';
+import { FileText, Settings, LifeBuoy, LogOut, Menu, Calendar, Users } from 'lucide-react';
 import Link from 'next/link';
 
 const getInitialInvoice = (): Invoice => ({
@@ -94,10 +94,17 @@ export default function Home() {
       <div className="no-print container mx-auto p-4 md:p-8">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Logo className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold font-headline text-foreground/80">InvoiceFast</h1>
+            <Link href="/" className="flex items-center gap-3">
+              <Logo className="h-8 w-8 text-primary" />
+              <h1 className="text-3xl font-bold font-headline text-foreground/80">InvoiceFast</h1>
+            </Link>
           </div>
           <div className="flex items-center gap-2">
+            <Link href="/customers">
+              <Button variant="outline" className="hidden sm:inline-flex">
+                <Users className="mr-2 h-4 w-4" /> Customers
+              </Button>
+            </Link>
             <Link href="/appointments">
               <Button variant="outline" className="hidden sm:inline-flex">
                 <Calendar className="mr-2 h-4 w-4" /> Appointments
@@ -118,6 +125,12 @@ export default function Home() {
                   <FileText className="mr-2 h-4 w-4" />
                   <span>New Invoice</span>
                 </DropdownMenuItem>
+                 <Link href="/customers">
+                  <DropdownMenuItem className="sm:hidden">
+                    <Users className="mr-2 h-4 w-4" />
+                    <span>Customers</span>
+                  </DropdownMenuItem>
+                </Link>
                 <Link href="/appointments">
                   <DropdownMenuItem className="sm:hidden">
                     <Calendar className="mr-2 h-4 w-4" />
