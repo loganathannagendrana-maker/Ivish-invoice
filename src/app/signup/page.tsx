@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -17,12 +18,14 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function SignupPage() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleCreateAccount = () => {
     toast({
         title: "Account Created",
         description: "Your account has been successfully created.",
     });
+    router.push('/login');
   };
 
   return (
