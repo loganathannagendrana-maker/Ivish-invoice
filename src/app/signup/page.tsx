@@ -12,8 +12,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
+import { useToast } from "@/hooks/use-toast";
+
 
 export default function SignupPage() {
+  const { toast } = useToast();
+
+  const handleCreateAccount = () => {
+    toast({
+        title: "Account Created",
+        description: "Your account has been successfully created.",
+    });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <div className="w-full max-w-md mx-auto">
@@ -52,7 +63,7 @@ export default function SignupPage() {
                 <Label htmlFor="password">Password</Label>
                 <Input id="password" type="password" />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" onClick={handleCreateAccount}>
                 Create an account
               </Button>
               <Button variant="outline" className="w-full">
