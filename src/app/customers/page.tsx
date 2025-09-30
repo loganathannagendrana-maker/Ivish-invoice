@@ -24,7 +24,7 @@ export default function CustomersPage() {
       <header className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-3">
-            <Logo className="h-8 w-8 text-primary" />
+            <Logo className="h-10 w-auto text-primary" />
             <h1 className="text-3xl font-bold font-headline text-foreground/80">Ivish Spa & MakeOvers</h1>
           </Link>
         </div>

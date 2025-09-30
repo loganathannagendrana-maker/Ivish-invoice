@@ -4,7 +4,7 @@ import type { SVGProps } from "react";
 const Logo = (props: SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 120 40"
+    viewBox="0 0 150 50"
     {...props}
   >
     <defs>
@@ -15,19 +15,19 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
     </defs>
     <text
       x="10"
-      y="35"
+      y="45"
       fontFamily="serif"
-      fontSize="40"
+      fontSize="50"
       fontWeight="bold"
       fill="url(#grad)"
     >
       I
     </text>
     <text
-      x="35"
-      y="35"
+      x="45"
+      y="42"
       fontFamily="cursive"
-      fontSize="24"
+      fontSize="30"
       fill="currentColor"
     >
       vish

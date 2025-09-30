@@ -13,7 +13,7 @@ export function PrintInvoice({ invoice }: PrintInvoiceProps) {
     <div className="bg-white text-black p-8 font-sans">
       <header className="flex justify-between items-start mb-8 border-b-2 border-gray-200 pb-4">
         <div>
-          <Logo className="h-12 w-12 text-gray-800" />
+          <Logo className="h-16 w-auto text-gray-800" />
           <h1 className="text-2xl font-bold text-gray-800 mt-2">Ivish Spa & MakeOvers</h1>
           <p className="text-gray-600 text-sm">Ramakrishnapuram, Saravanampatti, Coimbatore, Tamil Nadu 641006</p>
           <p className="text-gray-600 text-sm">Phone: 095008 96380</p>
