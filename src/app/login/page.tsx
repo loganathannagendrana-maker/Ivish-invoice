@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,6 +15,13 @@ import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const handleLogin = () => {
+    // In a real app, you'd have authentication logic here
+    router.push('/');
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <div className="w-full max-w-md mx-auto">
@@ -50,7 +58,7 @@ export default function LoginPage() {
                 </div>
                 <Input id="password" type="password" required />
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" onClick={handleLogin}>
                 Login
               </Button>
               <Button variant="outline" className="w-full">
