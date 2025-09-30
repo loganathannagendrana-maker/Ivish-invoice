@@ -33,3 +33,12 @@ export interface Service {
   name: string;
   rate: number;
 }
+
+export interface Customer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  totalAppointments: number;
+  totalSpent: number;
+}
