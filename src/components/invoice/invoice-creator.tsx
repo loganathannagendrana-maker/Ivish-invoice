@@ -22,19 +22,20 @@ interface InvoiceCreatorProps {
 const GST_RATE = 0.12;
 
 const serviceOptions = [
-  "Diamond Facials",
-  "Fruit Facials",
-  "Gold Facials",
-  "Hair Colour Gel",
-  "Hair Colour Streax",
-  "Hair Colour loreal",
-  "Highlights",
-  "O facials",
-  "Per Streax",
-  "Vitamin C facials",
-  "pappaya Facials",
-  "shine and Whitening Facial"
+    { name: "Diamond Facials", rate: 1000.00 },
+    { name: "Fruit Facials", rate: 600.00 },
+    { name: "Gold Facials", rate: 900.00 },
+    { name: "Hair Colour Gel", rate: 200.00 },
+    { name: "Hair Colour Streax", rate: 300.00 },
+    { name: "Hair Colour loreal", rate: 400.00 },
+    { name: "Highlights", rate: 800.00 },
+    { name: "O facials", rate: 2000.00 },
+    { name: "Per Streax", rate: 100.00 },
+    { name: "Vitamin C facials", rate: 1100.00 },
+    { name: "pappaya Facials", rate: 500.00 },
+    { name: "shine and Whitening Facial", rate: 800.00 }
 ];
+
 
 export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: InvoiceCreatorProps) {
   
@@ -46,6 +47,16 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
   const handleItemChange = (id: number, field: keyof InvoiceItem, value: string | number) => {
     const newItems = invoice.items.map(item =>
       item.id === id ? { ...item, [field]: value } : item
+    );
+    setInvoice(prev => ({ ...prev, items: newItems }));
+  };
+
+  const handleServiceChange = (id: number, selectedServiceName: string) => {
+    const service = serviceOptions.find(option => option.name === selectedServiceName);
+    if (!service) return;
+
+    const newItems = invoice.items.map(item =>
+      item.id === id ? { ...item, description: service.name, rate: service.rate } : item
     );
     setInvoice(prev => ({ ...prev, items: newItems }));
   };
@@ -110,13 +121,13 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
                 {invoice.items.map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>
-                       <Select onValueChange={(value) => handleItemChange(item.id, 'description', value)} value={item.description}>
+                       <Select onValueChange={(value) => handleServiceChange(item.id, value)} value={item.description}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select a service" />
                         </SelectTrigger>
                         <SelectContent>
                           {serviceOptions.map(option => (
-                            <SelectItem key={option} value={option}>{option}</SelectItem>
+                            <SelectItem key={option.name} value={option.name}>{option.name}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
