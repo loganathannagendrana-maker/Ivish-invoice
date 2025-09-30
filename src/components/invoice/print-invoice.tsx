@@ -14,7 +14,9 @@ export function PrintInvoice({ invoice }: PrintInvoiceProps) {
       <header className="flex justify-between items-start mb-8 border-b-2 border-gray-200 pb-4">
         <div>
           <Logo className="h-12 w-12 text-gray-800" />
-          <h1 className="text-4xl font-bold text-gray-800 mt-2">InvoiceFast</h1>
+          <h1 className="text-2xl font-bold text-gray-800 mt-2">Ivish Spa & MakeOvers</h1>
+          <p className="text-gray-600 text-sm">Ramakrishnapuram, Saravanampatti, Coimbatore, Tamil Nadu 641006</p>
+          <p className="text-gray-600 text-sm">Phone: 095008 96380</p>
         </div>
         <div className="text-right">
           <h2 className="text-3xl font-bold uppercase text-gray-500">Invoice</h2>
@@ -83,7 +85,7 @@ export function PrintInvoice({ invoice }: PrintInvoiceProps) {
 
       <footer className="text-center text-gray-500 text-xs pt-4 border-t border-gray-200">
         <p>Thank you for your business!</p>
-        <p>Generated with InvoiceFast</p>
+        <p>Generated with Ivish Spa & MakeOvers</p>
       </footer>
     </div>
   );

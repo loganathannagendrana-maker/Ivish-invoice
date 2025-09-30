@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'InvoiceFast',
+  title: 'Ivish Spa & MakeOvers',
   description: 'Create and manage invoices with ease.',
 };
 
