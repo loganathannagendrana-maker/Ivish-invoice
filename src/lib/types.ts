@@ -18,3 +18,13 @@ export interface Invoice {
   gst: number;
   total: number;
 }
+
+export interface Appointment {
+  id: string;
+  date: string;
+  time: string;
+  customerName: string;
+  customerPhone: string;
+  service: string;
+  notes: string;
+}
