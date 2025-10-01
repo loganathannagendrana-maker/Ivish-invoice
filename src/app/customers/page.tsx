@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { AddCustomerDialog } from "@/components/customers/add-customer-dialog";
 import type { Customer } from "@/lib/types";
 import PageLayout from "@/components/layout/page-layout";
+import { formatCurrency } from "@/lib/utils";
 
 
 export default function CustomersPage() {
@@ -62,7 +63,7 @@ export default function CustomersPage() {
                           <div>{customer.phone}</div>
                         </td>
                         <td className="p-4 text-center text-muted-foreground">{customer.totalAppointments}</td>
-                        <td className="p-4 text-right text-muted-foreground">₹{customer.totalSpent.toFixed(2)}</td>
+                        <td className="p-4 text-right text-muted-foreground">{formatCurrency(customer.totalSpent)}</td>
                         <td className="p-4 text-right">
                           <div className="flex justify-end gap-2">
                               <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
