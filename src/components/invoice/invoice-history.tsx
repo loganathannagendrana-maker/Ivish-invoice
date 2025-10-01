@@ -57,7 +57,7 @@ export default function InvoiceHistory({ invoices, onClearHistory }: InvoiceHist
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-semibold text-foreground/80">History</h3>
             {oldInvoicesExist && (
-                <Button variant="destructive" size="sm" onClick={onClearHistory}>
+                <Button variant="outline" size="sm" onClick={onClearHistory}>
                     <Trash2 className="mr-2 h-4 w-4" /> Clear History
                 </Button>
             )}
