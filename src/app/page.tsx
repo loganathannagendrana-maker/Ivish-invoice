@@ -19,7 +19,7 @@ const getInitialInvoice = (): Invoice => ({
   customerAddress: '',
   date: new Date().toISOString().split('T')[0],
   items: [
-    { id: Date.now(), description: '', quantity: 1, rate: 0 },
+    { id: Date.now(), description: '', quantity: 0, rate: 0 },
   ],
   notes: '',
   subtotal: 0,

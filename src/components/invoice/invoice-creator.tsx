@@ -53,7 +53,7 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
     const newItem: InvoiceItem = {
       id: Date.now(),
       description: '',
-      quantity: 1,
+      quantity: 0,
       rate: 0,
     };
     setInvoice(prev => ({ ...prev, items: [...prev.items, newItem] }));
