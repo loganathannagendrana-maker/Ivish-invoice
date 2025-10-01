@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { AddCustomerDialog } from "@/components/customers/add-customer-dialog";
+import { EditCustomerDialog } from "@/components/customers/edit-customer-dialog";
 import type { Customer } from "@/lib/types";
 import PageLayout from "@/components/layout/page-layout";
 import { formatCurrency } from "@/lib/utils";
@@ -14,6 +15,8 @@ import { formatCurrency } from "@/lib/utils";
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -48,6 +51,17 @@ export default function CustomersPage() {
     setCustomers(prev => [...prev, newCustomer]);
   };
 
+  const handleEditClick = (customer: Customer) => {
+    setEditingCustomer(customer);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateCustomer = (updatedCustomer: Customer) => {
+    setCustomers(prev => prev.map(c => c.id === updatedCustomer.id ? updatedCustomer : c));
+    setEditingCustomer(null);
+    setIsEditDialogOpen(false);
+  };
+
   const handleDeleteCustomer = (id: string) => {
     setCustomers(prev => prev.filter(customer => customer.id !== id));
   };
@@ -63,6 +77,14 @@ export default function CustomersPage() {
         onOpenChange={setIsAddDialogOpen}
         onAddCustomer={handleAddCustomer}
       />
+      {editingCustomer && (
+        <EditCustomerDialog
+            isOpen={isEditDialogOpen}
+            onOpenChange={setIsEditDialogOpen}
+            onUpdateCustomer={handleUpdateCustomer}
+            customer={editingCustomer}
+        />
+      )}
       <PageLayout>
         <div className="flex items-center justify-between mb-6">
             <div>
@@ -98,7 +120,7 @@ export default function CustomersPage() {
                         <td className="p-4 text-right text-muted-foreground">{formatCurrency(customer.totalSpent)}</td>
                         <td className="p-4 text-right">
                           <div className="flex justify-end gap-2">
-                              <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
+                              <Button variant="ghost" size="icon" onClick={() => handleEditClick(customer)}><Edit className="h-4 w-4" /></Button>
                               <Button variant="ghost" size="icon" onClick={() => handleDeleteCustomer(customer.id)}><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
                           </div>
                         </td>
