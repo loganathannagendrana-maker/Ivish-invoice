@@ -112,23 +112,23 @@ export default function Home() {
 
   return (
     <>
-      <div className="print-container hidden">
-        {invoiceToPrint && <PrintInvoice invoice={invoiceToPrint} />}
+      {invoiceToPrint && <PrintInvoice invoice={invoiceToPrint} />}
+      <div className="no-print">
+        <PageLayout>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="lg:col-span-8">
+              <InvoiceCreator
+                invoice={currentInvoice}
+                setInvoice={setCurrentInvoice}
+                onSaveAndPrint={handleSaveAndPrint}
+              />
+            </div>
+            <div className="lg:col-span-4">
+              <InvoiceHistory invoices={invoices} />
+            </div>
+          </div>
+        </PageLayout>
       </div>
-      <PageLayout>
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8">
-            <InvoiceCreator
-              invoice={currentInvoice}
-              setInvoice={setCurrentInvoice}
-              onSaveAndPrint={handleSaveAndPrint}
-            />
-          </div>
-          <div className="lg:col-span-4">
-            <InvoiceHistory invoices={invoices} />
-          </div>
-        </div>
-      </PageLayout>
     </>
   );
 }

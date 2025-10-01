@@ -11,7 +11,7 @@ interface PrintInvoiceProps {
 export function PrintInvoice({ invoice }: PrintInvoiceProps) {
   const GST_RATE = 0.12;
   return (
-    <div className="bg-white text-black p-8 font-sans">
+    <div className="print-container bg-white text-black p-8 font-sans">
       <header className="flex justify-between items-start mb-8 border-b-2 border-gray-200 pb-4">
         <div>
           <Logo className="h-16 w-auto text-gray-800" />
