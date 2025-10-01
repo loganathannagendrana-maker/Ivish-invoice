@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useMemo } from 'react';
@@ -5,15 +6,17 @@ import type { Invoice } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Search, Calendar, Hash, Users, DollarSign } from 'lucide-react';
+import { Search, Calendar, Hash, Users, DollarSign, Trash2 } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 import { format } from 'date-fns';
+import { Button } from '../ui/button';
 
 interface InvoiceHistoryProps {
   invoices: Invoice[];
+  onClearHistory: () => void;
 }
 
-export default function InvoiceHistory({ invoices }: InvoiceHistoryProps) {
+export default function InvoiceHistory({ invoices, onClearHistory }: InvoiceHistoryProps) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const today = new Date().toISOString().split('T')[0];
@@ -27,6 +30,8 @@ export default function InvoiceHistory({ invoices }: InvoiceHistoryProps) {
       inv.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       inv.invoiceNumber.toLowerCase().includes(searchTerm.toLowerCase())
     ), [invoices, searchTerm]);
+    
+  const oldInvoicesExist = useMemo(() => invoices.some(inv => inv.date !== today), [invoices, today]);
 
   return (
     <Card className="shadow-lg">
@@ -49,7 +54,14 @@ export default function InvoiceHistory({ invoices }: InvoiceHistoryProps) {
         </div>
 
         <div>
-          <h3 className="font-semibold mb-2 text-foreground/80">History</h3>
+          <div className="flex justify-between items-center mb-2">
+            <h3 className="font-semibold text-foreground/80">History</h3>
+            {oldInvoicesExist && (
+                <Button variant="destructive" size="sm" onClick={onClearHistory}>
+                    <Trash2 className="mr-2 h-4 w-4" /> Clear History
+                </Button>
+            )}
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 

@@ -106,6 +106,11 @@ export default function Home() {
     setCurrentInvoice(getInitialInvoice());
   }
 
+  const handleClearHistory = () => {
+    const today = new Date().toISOString().split('T')[0];
+    setInvoices(prev => prev.filter(inv => inv.date === today));
+  };
+
   if (!isMounted) {
     return null; // Or a loading spinner
   }
@@ -124,7 +129,7 @@ export default function Home() {
               />
             </div>
             <div className="lg:col-span-4">
-              <InvoiceHistory invoices={invoices} />
+              <InvoiceHistory invoices={invoices} onClearHistory={handleClearHistory} />
             </div>
           </div>
         </PageLayout>
