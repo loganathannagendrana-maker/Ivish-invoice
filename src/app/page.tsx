@@ -5,11 +5,7 @@ import type { Invoice } from '@/lib/types';
 import InvoiceCreator from '@/components/invoice/invoice-creator';
 import InvoiceHistory from '@/components/invoice/invoice-history';
 import { PrintInvoice } from '@/components/invoice/print-invoice';
-import Logo from '@/components/logo';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { FileText, Settings, LifeBuoy, LogOut, Menu, Users } from 'lucide-react';
-import Link from 'next/link';
+import PageLayout from '@/components/layout/page-layout';
 
 const getInitialInvoice = (): Invoice => ({
   id: '',
@@ -91,77 +87,8 @@ export default function Home() {
       <div className="print-container hidden">
         {invoiceToPrint && <PrintInvoice invoice={invoiceToPrint} />}
       </div>
-      <div className="no-print container mx-auto p-4 md:p-8">
-        <header className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-3">
-              <Logo className="h-10 w-auto text-primary" />
-              <h1 className="text-3xl font-bold font-headline text-foreground/80">Ivish Spa & MakeOvers</h1>
-            </Link>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link href="/services">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                <Users className="mr-2 h-4 w-4" /> Services
-              </Button>
-            </Link>
-            <Link href="/customers">
-              <Button variant="outline" className="hidden sm:inline-flex">
-                <Users className="mr-2 h-4 w-4" /> Customers
-              </Button>
-            </Link>
-            <Button onClick={handleNewInvoice} className="hidden sm:inline-flex"><FileText className="mr-2 h-4 w-4" /> New Invoice</Button>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Menu className="h-4 w-4" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleNewInvoice} className="sm:hidden">
-                  <FileText className="mr-2 h-4 w-4" />
-                  <span>New Invoice</span>
-                </DropdownMenuItem>
-                 <Link href="/services">
-                  <DropdownMenuItem className="sm:hidden">
-                    <Users className="mr-2 h-4 w-4" />
-                    <span>Services</span>
-                  </DropdownMenuItem>
-                </Link>
-                 <Link href="/customers">
-                  <DropdownMenuItem className="sm:hidden">
-                    <Users className="mr-2 h-4 w-4" />
-                    <span>Customers</span>
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/settings">
-                  <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    <span>Settings</span>
-                  </DropdownMenuItem>
-                </Link>
-                <Link href="/support">
-                  <DropdownMenuItem>
-                    <LifeBuoy className="mr-2 h-4 w-4" />
-                    <span>Support</span>
-                  </DropdownMenuItem>
-                </Link>
-                <DropdownMenuSeparator />
-                <Link href="/login">
-                  <DropdownMenuItem>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Logout</span>
-                  </DropdownMenuItem>
-                </Link>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </header>
-
-        <main className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <PageLayout>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8">
             <InvoiceCreator
               invoice={currentInvoice}
@@ -172,8 +99,8 @@ export default function Home() {
           <div className="lg:col-span-4">
             <InvoiceHistory invoices={invoices} />
           </div>
-        </main>
-      </div>
+        </div>
+      </PageLayout>
     </>
   );
 }
