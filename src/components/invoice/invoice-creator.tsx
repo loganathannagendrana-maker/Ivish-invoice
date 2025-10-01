@@ -121,7 +121,7 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
                       <Input type="number" value={item.quantity} min="0" onChange={e => handleItemChange(item.id, 'quantity', parseFloat(e.target.value) || 0)} />
                     </TableCell>
                     <TableCell>
-                      <Input type="number" value={item.rate} min="0" onChange={e => handleItemChange(item.id, 'rate', parseFloat(e.target.value) || 0)} />
+                      <Input type="number" value={item.rate} min="0" readOnly className="bg-muted/50" />
                     </TableCell>
                     <TableCell>{formatCurrency(item.quantity * item.rate)}</TableCell>
                     <TableCell>
