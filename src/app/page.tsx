@@ -1,7 +1,8 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
-import type { Invoice } from '@/lib/types';
+import type { Invoice, Customer } from '@/lib/types';
 import InvoiceCreator from '@/components/invoice/invoice-creator';
 import InvoiceHistory from '@/components/invoice/invoice-history';
 import { PrintInvoice } from '@/components/invoice/print-invoice';
@@ -25,6 +26,7 @@ const getInitialInvoice = (): Invoice => ({
 
 export default function Home() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [currentInvoice, setCurrentInvoice] = useState<Invoice>(getInitialInvoice());
   const [invoiceToPrint, setInvoiceToPrint] = useState<Invoice | null>(null);
   const [isMounted, setIsMounted] = useState(false);
@@ -36,8 +38,12 @@ export default function Home() {
       if (storedInvoices) {
         setInvoices(JSON.parse(storedInvoices));
       }
+      const storedCustomers = localStorage.getItem('customers');
+      if (storedCustomers) {
+        setCustomers(JSON.parse(storedCustomers));
+      }
     } catch (error) {
-      console.error("Failed to parse invoices from localStorage", error);
+      console.error("Failed to parse from localStorage", error);
     }
   }, []);
 
@@ -45,11 +51,12 @@ export default function Home() {
     if (isMounted) {
       try {
         localStorage.setItem('invoices', JSON.stringify(invoices));
+        localStorage.setItem('customers', JSON.stringify(customers));
       } catch (error) {
-        console.error("Failed to save invoices to localStorage", error);
+        console.error("Failed to save to localStorage", error);
       }
     }
-  }, [invoices, isMounted]);
+  }, [invoices, customers, isMounted]);
 
   useEffect(() => {
     if (invoiceToPrint) {
@@ -70,6 +77,27 @@ export default function Home() {
     };
     
     setInvoices(prev => [newInvoice, ...prev]);
+
+    // Add or update customer
+    const existingCustomerIndex = customers.findIndex(c => c.email.toLowerCase() === invoice.customerEmail.toLowerCase() && c.email !== '');
+    if (existingCustomerIndex !== -1) {
+      const updatedCustomers = [...customers];
+      const existingCustomer = updatedCustomers[existingCustomerIndex];
+      existingCustomer.totalAppointments += 1;
+      existingCustomer.totalSpent += invoice.total;
+      setCustomers(updatedCustomers);
+    } else {
+      const newCustomer: Customer = {
+        id: Date.now().toString(),
+        name: invoice.customerName,
+        email: invoice.customerEmail,
+        phone: '', // Phone is not on the invoice form
+        totalAppointments: 1,
+        totalSpent: invoice.total,
+      };
+      setCustomers(prev => [...prev, newCustomer]);
+    }
+
     setInvoiceToPrint(newInvoice);
     setCurrentInvoice(getInitialInvoice());
   };

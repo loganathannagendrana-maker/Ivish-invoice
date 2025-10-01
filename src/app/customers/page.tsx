@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,6 +14,29 @@ import { formatCurrency } from "@/lib/utils";
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    try {
+      const storedCustomers = localStorage.getItem('customers');
+      if (storedCustomers) {
+        setCustomers(JSON.parse(storedCustomers));
+      }
+    } catch (error) {
+      console.error("Failed to parse customers from localStorage", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      try {
+        localStorage.setItem('customers', JSON.stringify(customers));
+      } catch (error) {
+        console.error("Failed to save customers to localStorage", error);
+      }
+    }
+  }, [customers, isMounted]);
 
   const handleAddCustomer = (customer: Omit<Customer, 'id' | 'totalAppointments' | 'totalSpent'>) => {
     const newCustomer: Customer = {
@@ -23,6 +47,10 @@ export default function CustomersPage() {
     };
     setCustomers(prev => [...prev, newCustomer]);
   };
+
+  if (!isMounted) {
+    return null; // Or a loading spinner
+  }
 
   return (
     <>
