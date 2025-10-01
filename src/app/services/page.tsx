@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -7,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { serviceOptions as initialServices } from "@/lib/services";
 import { formatCurrency } from "@/lib/utils";
 import { AddServiceDialog } from "@/components/services/add-service-dialog";
+import { EditServiceDialog } from "@/components/services/edit-service-dialog";
 import type { Service } from "@/lib/types";
 import PageLayout from "@/components/layout/page-layout";
 
@@ -14,10 +16,27 @@ import PageLayout from "@/components/layout/page-layout";
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>(initialServices);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingService, setEditingService] = useState<Service | null>(null);
 
   const handleAddService = (service: Service) => {
     setServices(prev => [...prev, service]);
   };
+
+  const handleEditClick = (service: Service) => {
+    setEditingService(service);
+    setIsEditDialogOpen(true);
+  };
+
+  const handleUpdateService = (updatedService: Service) => {
+    setServices(prev => prev.map(s => s.name === updatedService.name ? updatedService : s));
+    setEditingService(null);
+  };
+  
+  const handleDeleteService = (serviceName: string) => {
+    setServices(prev => prev.filter(service => service.name !== serviceName));
+  };
+
 
   return (
     <>
@@ -26,6 +45,14 @@ export default function ServicesPage() {
         onOpenChange={setIsAddDialogOpen}
         onAddService={handleAddService}
       />
+      {editingService && (
+        <EditServiceDialog
+            isOpen={isEditDialogOpen}
+            onOpenChange={setIsEditDialogOpen}
+            onUpdateService={handleUpdateService}
+            service={editingService}
+        />
+      )}
       <PageLayout>
         <div className="flex items-center justify-between mb-6">
             <div>
@@ -53,8 +80,8 @@ export default function ServicesPage() {
                       <td className="p-4 text-right text-muted-foreground">{formatCurrency(service.rate)}</td>
                       <td className="p-4 text-right">
                         <div className="flex justify-end gap-2">
-                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                            <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleEditClick(service)}><Edit className="h-4 w-4" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => handleDeleteService(service.name)}><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
                         </div>
                       </td>
                     </tr>
