@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
@@ -13,6 +14,7 @@ import { formatCurrency } from "@/lib/utils";
 import { PlusCircle, Trash2, Send } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { serviceOptions } from "@/lib/services";
+import { useToast } from "@/hooks/use-toast";
 
 interface InvoiceCreatorProps {
   invoice: Invoice;
@@ -23,6 +25,7 @@ interface InvoiceCreatorProps {
 const GST_RATE = 0.12;
 
 export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: InvoiceCreatorProps) {
+  const { toast } = useToast();
   
   const handleCustomerChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -60,6 +63,19 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
     const newItems = invoice.items.filter(item => item.id !== id);
     setInvoice(prev => ({ ...prev, items: newItems }));
   };
+
+  const handleSaveClick = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(invoice.customerEmail)) {
+        toast({
+            title: "Invalid Email",
+            description: "Please enter a valid email address for the customer.",
+            variant: "destructive",
+        });
+        return;
+    }
+    onSaveAndPrint(invoice);
+  }
 
   useEffect(() => {
     const subtotal = invoice.items.reduce((acc, item) => acc + item.quantity * item.rate, 0);
@@ -162,7 +178,7 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
         </div>
       </CardContent>
       <CardFooter>
-        <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" onClick={() => onSaveAndPrint(invoice)}>
+        <Button size="lg" className="w-full bg-accent text-accent-foreground hover:bg-accent/90" onClick={handleSaveClick}>
           <Send className="mr-2 h-4 w-4" /> Save & Generate PDF
         </Button>
       </CardFooter>
