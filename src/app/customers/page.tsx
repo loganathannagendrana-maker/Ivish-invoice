@@ -48,6 +48,10 @@ export default function CustomersPage() {
     setCustomers(prev => [...prev, newCustomer]);
   };
 
+  const handleDeleteCustomer = (id: string) => {
+    setCustomers(prev => prev.filter(customer => customer.id !== id));
+  };
+
   if (!isMounted) {
     return null; // Or a loading spinner
   }
@@ -95,7 +99,7 @@ export default function CustomersPage() {
                         <td className="p-4 text-right">
                           <div className="flex justify-end gap-2">
                               <Button variant="ghost" size="icon"><Edit className="h-4 w-4" /></Button>
-                              <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
+                              <Button variant="ghost" size="icon" onClick={() => handleDeleteCustomer(customer.id)}><Trash2 className="h-4 w-4 text-destructive/80" /></Button>
                           </div>
                         </td>
                       </tr>
