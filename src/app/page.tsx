@@ -7,6 +7,9 @@ import InvoiceCreator from '@/components/invoice/invoice-creator';
 import InvoiceHistory from '@/components/invoice/invoice-history';
 import { PrintInvoice } from '@/components/invoice/print-invoice';
 import PageLayout from '@/components/layout/page-layout';
+import { useAuth } from '@/hooks/use-auth.tsx';
+import { useRouter } from 'next/navigation';
+
 
 const getInitialInvoice = (): Invoice => ({
   id: '',
@@ -30,9 +33,15 @@ export default function Home() {
   const [currentInvoice, setCurrentInvoice] = useState<Invoice>(getInitialInvoice());
   const [invoiceToPrint, setInvoiceToPrint] = useState<Invoice | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
+
 
   useEffect(() => {
     setIsMounted(true);
+    if (!user) {
+      router.push('/login');
+    }
     try {
       const storedInvoices = localStorage.getItem('invoices');
       if (storedInvoices) {
@@ -45,7 +54,7 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to parse from localStorage", error);
     }
-  }, []);
+  }, [user, router]);
 
   useEffect(() => {
     if (isMounted) {
@@ -111,7 +120,7 @@ export default function Home() {
     setInvoices(prev => prev.filter(inv => inv.date === today));
   };
 
-  if (!isMounted) {
+  if (!isMounted || !user) {
     return null; // Or a loading spinner
   }
 

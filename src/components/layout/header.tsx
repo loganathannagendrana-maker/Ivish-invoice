@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import {
   FileText,
@@ -17,8 +18,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useAuth } from '@/hooks/use-auth.tsx';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const { logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+  };
+  
   return (
     <header className="mb-8 flex items-center justify-between no-print">
       <div className="flex items-center gap-3">
@@ -86,11 +97,9 @@ export default function Header() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/login">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
-              </Link>
+            <DropdownMenuItem onClick={handleLogout}>
+              <LogOut className="mr-2 h-4 w-4" />
+              <span>Logout</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

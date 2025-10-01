@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -13,13 +14,28 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/components/logo";
+import { useState } from "react";
+import { useAuth } from "@/hooks/use-auth.tsx";
+import { useToast } from "@/hooks/use-toast";
+
 
 export default function LoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const { toast } = useToast();
 
   const handleLogin = () => {
-    // In a real app, you'd have authentication logic here
-    router.push('/');
+    if (login(email, password)) {
+      router.push('/');
+    } else {
+      toast({
+        title: "Login Failed",
+        description: "Invalid email or password.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -44,6 +60,8 @@ export default function LoginPage() {
                   type="email"
                   placeholder="m@example.com"
                   required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -56,7 +74,14 @@ export default function LoginPage() {
                     Forgot your password?
                   </Link>
                 </div>
-                <Input id="password" type="password" required />
+                <Input 
+                  id="password" 
+                  type="password" 
+                  required 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+                />
               </div>
               <Button type="submit" className="w-full" onClick={handleLogin}>
                 Login
