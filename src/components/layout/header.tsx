@@ -7,6 +7,7 @@ import {
   Menu,
   Settings,
   Users,
+  BarChart,
 } from 'lucide-react';
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -51,6 +52,11 @@ export default function Header() {
             <Users className="mr-2 h-4 w-4" /> Customers
           </Link>
         </Button>
+        <Button variant="outline" className="hidden sm:inline-flex" asChild>
+          <Link href="/reports">
+            <BarChart className="mr-2 h-4 w-4" /> Reports
+          </Link>
+        </Button>
         <Button className="hidden sm:inline-flex" asChild>
           <Link href="/">
             <FileText className="mr-2 h-4 w-4" /> New Invoice
@@ -82,6 +88,12 @@ export default function Header() {
               <Link href="/customers">
                 <Users className="mr-2 h-4 w-4" />
                 <span>Customers</span>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem className="sm:hidden" asChild>
+              <Link href="/reports">
+                <BarChart className="mr-2 h-4 w-4" />
+                <span>Reports</span>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
