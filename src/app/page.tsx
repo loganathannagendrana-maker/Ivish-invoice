@@ -15,7 +15,7 @@ const getInitialInvoice = (): Invoice => ({
   id: '',
   invoiceNumber: '',
   customerName: '',
-  customerEmail: '',
+  customerMobile: '',
   customerAddress: '',
   date: new Date().toISOString().split('T')[0],
   items: [
@@ -88,7 +88,7 @@ export default function Home() {
     setInvoices(prev => [newInvoice, ...prev]);
 
     // Add or update customer
-    const existingCustomerIndex = customers.findIndex(c => c.email.toLowerCase() === invoice.customerEmail.toLowerCase() && c.email !== '');
+    const existingCustomerIndex = customers.findIndex(c => c.phone === invoice.customerMobile && c.phone !== '');
     if (existingCustomerIndex !== -1) {
       const updatedCustomers = [...customers];
       const existingCustomer = updatedCustomers[existingCustomerIndex];
@@ -99,8 +99,8 @@ export default function Home() {
       const newCustomer: Customer = {
         id: Date.now().toString(),
         name: invoice.customerName,
-        email: invoice.customerEmail,
-        phone: '', // Phone is not on the invoice form
+        email: '', // email is not on the invoice form
+        phone: invoice.customerMobile,
         totalAppointments: 1,
         totalSpent: invoice.total,
       };

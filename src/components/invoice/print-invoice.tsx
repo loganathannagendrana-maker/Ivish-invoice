@@ -33,7 +33,7 @@ export function PrintInvoice({ invoice }: PrintInvoiceProps) {
       <section className="mb-8">
         <h3 className="text-sm font-semibold uppercase text-gray-500 mb-2">Bill To:</h3>
         <p className="font-bold text-lg text-gray-800">{invoice.customerName}</p>
-        <p className="text-gray-600">{invoice.customerEmail}</p>
+        <p className="text-gray-600">{invoice.customerMobile}</p>
         <p className="text-gray-600 whitespace-pre-line">{invoice.customerAddress}</p>
       </section>
 

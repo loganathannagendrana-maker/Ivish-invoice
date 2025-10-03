@@ -65,15 +65,6 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
   };
 
   const handleSaveClick = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(invoice.customerEmail)) {
-        toast({
-            title: "Invalid Email",
-            description: "Please enter a valid email address for the customer.",
-            variant: "destructive",
-        });
-        return;
-    }
     onSaveAndPrint(invoice);
   }
 
@@ -96,8 +87,8 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
             <Input id="customerName" name="customerName" value={invoice.customerName} onChange={handleCustomerChange} placeholder="Name" />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="customerEmail">Customer Email</Label>
-            <Input id="customerEmail" name="customerEmail" type="email" value={invoice.customerEmail} onChange={handleCustomerChange} placeholder="john.doe@example.com" />
+            <Label htmlFor="customerMobile">Customer Mobile Number</Label>
+            <Input id="customerMobile" name="customerMobile" type="tel" value={invoice.customerMobile} onChange={handleCustomerChange} placeholder="9876543210" />
           </div>
           <div className="md:col-span-2 space-y-2">
             <Label htmlFor="customerAddress">Customer Address</Label>

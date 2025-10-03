@@ -9,7 +9,7 @@ export interface Invoice {
   id: string;
   invoiceNumber: string;
   customerName: string;
-  customerEmail: string;
+  customerMobile: string;
   customerAddress: string;
   date: string;
   items: InvoiceItem[];
