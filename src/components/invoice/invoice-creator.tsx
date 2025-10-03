@@ -93,7 +93,7 @@ export default function InvoiceCreator({ invoice, setInvoice, onSaveAndPrint }: 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <Label htmlFor="customerName">Customer Name</Label>
-            <Input id="customerName" name="customerName" value={invoice.customerName} onChange={handleCustomerChange} placeholder="John Doe" />
+            <Input id="customerName" name="customerName" value={invoice.customerName} onChange={handleCustomerChange} placeholder="Name" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="customerEmail">Customer Email</Label>
